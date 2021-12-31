@@ -1,1 +1,8 @@
 @import '@/uni_modules/uni-scss/variables.scss';
+.uni-searchbar {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding: 16px;
+  background-color: #c00000;
+}
