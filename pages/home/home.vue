@@ -7,7 +7,8 @@
     <!-- 轮播图区域-->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item,i) in swiperList" :key="i">
-        <navigator class="swiper-item" :url="`/subpkg/goods_detail/goods_detail?good_id=${item.goods_id}`" :open-type="item.open_type">
+        <navigator class="swiper-item" :url="`/subpkg/goods_detail/goods_detail?good_id=${item.goods_id}`"
+          :open-type="item.open_type">
           <image :src="item.image_src"></image>
         </navigator>
       </swiper-item>
@@ -24,10 +25,12 @@
         <image :src="item.floor_title.image_src" class="floor-title"></image>
         <view class="floor-img-box">
           <navigator class="left-img-box" :open-type="item.product_list[0].open_type" :url="item.product_list[0].url">
-            <image :src="item.product_list[0].image_src" :style="{width:`${item.product_list[0].image_width}rpx`}" mode="widthFix"></image>
+            <image :src="item.product_list[0].image_src" :style="{width:`${item.product_list[0].image_width}rpx`}"
+              mode="widthFix"></image>
           </navigator>
           <view class="right-img-box">
-            <navigator class="right-img-item" v-for="(el,index) in item.product_list" :key="index" v-if="index !== 0" :open-type="el.open_type" :url="el.url">
+            <navigator class="right-img-item" v-for="(el,index) in item.product_list" :key="index" v-if="index !== 0"
+              :open-type="el.open_type" :url="el.url">
               <image :src="el.image_src" mode="widthFix" :style="{width:`${el.image_width}rpx`}"></image>
             </navigator>
           </view>
@@ -38,12 +41,15 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js'
   export default {
+    //将badgeMix载入到当前的页面中使用
+    mixins: [badgeMix],
     data() {
       return {
         swiperList: [],
-        navList:[],
-        floorList:[],
+        navList: [],
+        floorList: [],
       };
     },
     methods: {
@@ -52,24 +58,28 @@
           data: res
         } = await uni.$http.get('/api/public/v1/home/swiperdata')
         if (res.meta.status !== 200) return uni.$showMsg()
-        uni.$showMsg("数据请求成功",1500,"success")
+        uni.$showMsg("数据请求成功", 1500, "success")
         this.swiperList = res.message
       },
       async getNavList() {
-        const {data: res} = await uni.$http.get('/api/public/v1/home/catitems')
+        const {
+          data: res
+        } = await uni.$http.get('/api/public/v1/home/catitems')
         if (res.meta.status !== 200) return uni.$showMsg()
         this.navList = res.message
       },
       navClickHandler(item) {
         //判断点击的是哪个nav
-        if(item.name === '分类') {
+        if (item.name === '分类') {
           uni.switchTab({
-            url:'/pages/cate/cate'
+            url: '/pages/cate/cate'
           })
         }
       },
       async getFloorList() {
-        const {data:res} = await uni.$http.get('/api/public/v1/home/floordata')
+        const {
+          data: res
+        } = await uni.$http.get('/api/public/v1/home/floordata')
         if (res.meta.status !== 200) return uni.$showMsg()
         res.message.forEach(floor => {
           floor.product_list.forEach(prod => {
@@ -80,7 +90,7 @@
       },
       goSearch() {
         uni.navigateTo({
-          url:'/subpkg/search/search'
+          url: '/subpkg/search/search'
         })
       },
     },
@@ -95,34 +105,41 @@
 <style lang="scss">
   .search-box {
     position: sticky;
-    top:0;
+    top: 0;
     z-index: 999;
   }
+
   swiper {
     height: 300rpx;
-  .swiper-item,
+
+    .swiper-item,
     image {
       width: 100%;
       height: 100%;
     }
   }
+
   .nav-list {
     display: flex;
     justify-content: space-around;
     margin: 15rpx 0;
+
     .nav-img {
       width: 128rpx;
       height: 140rpx;
     }
-    }
+  }
+
   .floor-title {
     width: 100%;
     height: 60rpx;
     display: flex;
   }
+
   .floor-img-box {
     display: flex;
     padding-left: 10rpx;
+
     .right-img-box {
       display: flex;
       flex-wrap: wrap;
