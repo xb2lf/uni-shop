@@ -77,6 +77,10 @@
           uni.switchTab({
             url:`/pages/cart/cart`
           })
+        }else if(e.content.text === '店铺') {
+          uni.switchTab({
+            url:'/pages/home/home'
+          })
         }
       },
       buttonClick(e) {
@@ -91,6 +95,19 @@
             goods_state:true //商品的勾选状态
           }
           this.addToCart(goods);
+        }else if(e.content.text === '立即购买') {
+          const goods = {
+            goods_id:this.goods_info.goods_id,
+            goods_name:this.goods_info.goods_name,
+            goods_price:this.goods_info.goods_price,
+            goods_count: 1, //商品的数量
+            goods_small_logo:this.goods_info.goods_small_logo,
+            goods_state:true //商品的勾选状态
+          }
+          this.addToCart(goods);
+          uni.switchTab({
+            url:`/pages/cart/cart`
+          })
         }
       },
     },

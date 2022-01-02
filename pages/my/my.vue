@@ -1,10 +1,12 @@
 <template>
-  <view>
-    My
+  <view class="my-container">
+    <my-login v-if="!token"></my-login>
+    <my-userinfo v-else></my-userinfo>
   </view>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import badgeMix from '@/mixins/tabbar-badge.js'
   export default {
     //将badgeMix载入到当前的页面中使用
@@ -13,10 +15,15 @@
       return {
 
       };
-    }
+    },
+    computed:{
+      ...mapState('m_user',['token'])
+    },
   }
 </script>
 
 <style lang="scss">
-
+page,.my-container {
+  height: 100%;
+}
 </style>

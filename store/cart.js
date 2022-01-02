@@ -50,6 +50,11 @@ export default {
       state.cart.forEach(el => el.goods_state = newState)
       this.commit('m_cart/saveToStorage')
     },
+    //结算完成后，未勾选商品的总数量
+    unCheckedGoods(state) {
+      state.cart = state.cart.filter(el => !el.goods_state)
+      this.commit('m_cart/saveToStorage')
+    },
   },
   //模块的getters属性
   getters: {
@@ -69,7 +74,7 @@ export default {
        */
       return state.cart.filter(x => x.goods_state).reduce((total, item) => total += item.goods_count, 0)
     },
-    //勾选商品的总结
+    //勾选商品的总金额
     checkedGoodsAmount(state) {
       /**
        *  先使用filter方法，从购物车中过滤已勾选的商品
@@ -79,7 +84,7 @@ export default {
        */
       return state.cart.filter(goods => goods.goods_state).reduce((amount, el) => amount += el.goods_count * el
         .goods_price, 0).toFixed(2)
-    }
+    },
   },
   //模块的actions方法
   actions: {},
